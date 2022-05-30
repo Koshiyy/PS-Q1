@@ -1,0 +1,1 @@
+# Programa que detecta a colisão entre as formas geométricas.
