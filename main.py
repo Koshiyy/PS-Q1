@@ -22,18 +22,22 @@ while (cap.isOpened()):
 
         upper_blue = np.array([135, 255, 255])
         lower_blue = np.array([90, 50, 50])
-        maskblue = cv.inRange(frame_hsv, lower_blue, upper_blue)
+        mask_blue = cv.inRange(frame_hsv, lower_blue, upper_blue)
 
-        mask_red = mask_red1 + mask_red2
+        mask = mask_red1 + mask_red2 + mask_blue
 
-        cnts = cv.findContours(mask_red, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+        cnts = cv.findContours(mask, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         cnts = cnts[0] if len(cnts) == 2 else cnts[1]
 
         for c in cnts:
             x, y, w, h = cv.boundingRect(c)
-            area = w * h
-            rect = cv.rectangle(
-                frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+            area = cv.contourArea(c)
+            if area > 90000:
+                rect = cv.rectangle(
+                    frame, (x, y), (x + w, y + h), (0, 255, 0), 3)
+                if (x < 250):
+                    cv.putText(frame, 'Passou a barreira', (50, 50), cv.FONT_HERSHEY_SIMPLEX,
+                               1, (0, 255, 0), 2, cv.LINE_AA)
         cv.imshow('Frame', frame)
 
         if cv.waitKey(25) & 0xFF == ord('q'):
