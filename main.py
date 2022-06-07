@@ -38,6 +38,9 @@ while (cap.isOpened()):
                 if (x < 250):
                     cv.putText(frame, 'Passou a barreira', (50, 50), cv.FONT_HERSHEY_SIMPLEX,
                                1, (0, 255, 0), 2, cv.LINE_AA)
+                elif x < 480 and x > 250:
+                    cv.putText(frame, 'Colidiu', (50, 50), cv.FONT_HERSHEY_SIMPLEX,
+                               1, (0, 255, 0), 2, cv.LINE_AA)
         cv.imshow('Frame', frame)
 
         if cv.waitKey(25) & 0xFF == ord('q'):
